@@ -1,0 +1,225 @@
+% mnras_template.tex 
+%
+% LaTeX template for creating an MNRAS paper
+%
+% v3.3 released April 2024
+% (version numbers match those of mnras.cls)
+%
+% Copyright (C) Royal Astronomical Society 2015
+% Authors:
+% Keith T. Smith (Royal Astronomical Society)
+
+% Change log
+%
+% v3.3 April 2024
+%   Updated \pubyear to print the current year automatically
+% v3.2 July 2023
+%	Updated guidance on use of amssymb package
+% v3.0 May 2015
+%    Renamed to match the new package name
+%    Version number matches mnras.cls
+%    A few minor tweaks to wording
+% v1.0 September 2013
+%    Beta testing only - never publicly released
+%    First version: a simple (ish) template for creating an MNRAS paper
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Basic setup. Most papers should leave these options alone.
+\documentclass[fleqn,usenatbib]{mnras}
+
+% MNRAS is set in Times font. If you don't have this installed (most LaTeX
+% installations will be fine) or prefer the old Computer Modern fonts, comment
+% out the following line
+\usepackage{newtxtext,newtxmath,amsmath}
+% Depending on your LaTeX fonts installation, you might get better results with one of these:
+%\usepackage{mathptmx}
+%\usepackage{txfonts}
+
+% Use vector fonts, so it zooms properly in on-screen viewing software
+% Don't change these lines unless you know what you are doing
+\usepackage[T1]{fontenc}
+\usepackage{orcidlink}
+
+% Allow "Thomas van Noord" and "Simon de Laguarde" and alike to be sorted by "N" and "L" etc. in the bibliography.
+% Write the name in the bibliography as "\VAN{Noord}{Van}{van} Noord, Thomas"
+\DeclareRobustCommand{\VAN}[3]{#2}
+\let\VANthebibliography\thebibliography
+\def\thebibliography{\DeclareRobustCommand{\VAN}[3]{##3}\VANthebibliography}
+
+
+%%%%% AUTHORS - PLACE YOUR OWN PACKAGES HERE %%%%%
+
+% Only include extra packages if you really need them. Avoid using amssymb if newtxmath is enabled, as these packages can cause conflicts. newtxmatch covers the same math symbols while producing a consistent Times New Roman font. Common packages are:
+\usepackage{graphicx}	% Including figure files
+\usepackage{amsmath}	% Advanced maths commands
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%% AUTHORS - PLACE YOUR OWN COMMANDS HERE %%%%%
+
+% Please keep new commands to a minimum, and use \newcommand not \def to avoid
+% overwriting existing commands. Example:
+%\newcommand{\pcm}{\,cm$^{-2}$}	% per cm-squared
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%% TITLE PAGE %%%%%%%%%%%%%%%%%%%
+
+% Title of the paper, and the short title which is used in the headers.
+% Keep the title short and informative.
+\title[Erratum to STARFORGE]{Correction to: STARFORGE: Towards a comprehensive numerical model of star cluster formation and feedback}
+
+% The list of authors, and the short list which is used in the headers.
+% If you need two or more lines of authors, add an extra line using \newauthor
+\author[Grudi\'{c} et al.]{
+Michael Y. Grudi\'{c}\orcidlink{0000-0002-1655-5604}$^{1}$\thanks{mgrudic@flatironinstitute.org},
+D\'avid Guszejnov\orcidlink{0000-0001-5541-3150}$^{2}$,
+Philip F. Hopkins\orcidlink{0000-0003-3729-1684}$^{3}$,
+\newauthor
+Stella S. R. Offner\orcidlink{0000-0003-1252-9916}$^{2}$, and
+Claude-Andr{\'e} Faucher-Gigu{\`e}re\orcidlink{0000-0002-4900-6628}$^{1}$
+\\
+% List of institutions
+$^{1}${CIERA and Department of Physics and Astronomy, Northwestern University, 1800 Sherman Ave, Evanston, IL 60201, USA}\\
+$^{2}$Department of Astronomy, The University of Texas at Austin, TX 78712, USA \\
+$^{3}$TAPIR, Mailcode 350-17, California Institute of Technology, Pasadena, CA 91125, USA \\
+}
+
+
+% These dates will be filled out by the publisher
+\date{Accepted XXX. Received YYY; in original form ZZZ}
+
+% Prints the current year, for the copyright statements etc. To achieve a fixed year, replace the expression with a number. 
+\pubyear{\the\year{}}
+
+% Don't change these lines
+\begin{document}
+\label{firstpage}
+\pagerange{\pageref{firstpage}--\pageref{lastpage}}
+\maketitle
+
+% Abstract of the paper
+%\begin{abstract}
+%\end{abstract}
+
+% Select between one and six entries from the list of approved keywords.
+% Don't make up new ones.
+\begin{keywords}
+keyword1 -- keyword2 -- keyword3
+\end{keywords}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%% BODY OF PAPER %%%%%%%%%%%%%%%%%%
+
+\section{The Problem}
+
+The original {\small STARFORGE} methods paper provided a fitting functions for the IR dust opacity as a function of dust temperature $T_{\rm d}$ in Appendix C. Although this was the model originally used in the simulations, e.g. \citet{starforge_fullphysics}, it is inapplicable in the vast majority of the simulation volume. This is because dust opacity a strong function of photon energy, or equivalently the radiation temperature $T_{\rm rad}$ defined in the context of our model. Typically $T_{\rm rad} \neq T_{\rm d}$, so frequency-integrated opacity must be treated as a function of both temperatures.
+
+\section{Planck-mean dust opacities}
+We take this opportunity to clarify what appears to be a confusing matter for the community, as other authors appear to have treated dust opacity as an explicit function of dust temperature alone \citep{dopcke_2011, grackle,zimmerman_2025,rigel}. Notably, this issue was discussed in a footnote in \citet{cunningham2018}.
+
+Assuming the heat capacity of dust is very small, the steady-state dust energy equation balances three processes:
+
+\begin{equation}
+    \underbrace{\int  \mathrm{d} \nu\, \kappa_\nu \left(T_{\rm d}\right) \rho c u_{\nu}}_{\text{Absorption} }
+    - \underbrace{\int  \mathrm{d} \nu\, \epsilon_\nu }_{\text{Emission} }
+    + \underbrace{n_{\rm H}^2\alpha_{\rm gd}\left(T\right) \left(T - T_{\rm d}\right)}_{\text{Gas-dust collisions}} = 0,
+    \label{eq:dustenergy}
+\end{equation}
+where $\nu$ is the photon frequency, $\kappa_{\nu}\left(T_{\rm d}\right)$ is the monochromatic dust absorption opacity, $\rho$ is the mass density, $\epsilon_\nu$ is the volumetric emissivity, $n_{\rm H}$ is the number density of H nuclei, $T$ is the gas temperature, and $\alpha_{\rm gd}$ is the gas-dust collision coefficient \citep{hollenbach_mckee_1989}. Here we have made explicit the dependence of $\kappa_{\nu}\left(T_{\rm d}\right)$ upon dust temperature, due to varying grain composition as volatiles sublimate.
+
+The assumption we make for the {\small STARFORGE} far-IR photon frequency component is 
+\begin{equation}
+u_\nu = u_{\rm IR} \times \frac{B_\nu\left(T_{\rm rad}\right)}{\int \mathrm{d} \nu\, B_\nu\left(T_{\rm rad}\right)}
+\end{equation}
+ i.e. the photon energy distribution is proportional to that of a black-body with temperature $T_{\rm rad}$, with frequency-integrated energy density $u$. Integrating Eq. \ref{eq:dustenergy} while neglecting the other radiation bands absorbed by dust:
+\begin{equation}
+     \kappa_P\left(\underline{T_{\rm d}},\underline{T_{\rm rad}}\right) \rho c u_{\rm IR}
+    - \epsilon_{\rm d}
+    + n_{\rm H}^2\alpha_{\rm gd}\left(T\right) \left(T - T_{\rm d}\right) = 0,
+\end{equation}
+where 
+\begin{equation}
+\kappa_{\rm P}\left(\underline{T_{\rm d}},\underline{T_{\rm rad}}\right) = \frac{\int \mathrm{d} \nu\, \kappa_\nu 
+\left(T_{\rm d}\right) B_\nu\left(T_{\rm rad}\right)}{\int \mathrm{d} \nu\, B_{\nu}\left(T_{\rm rad}\right)}
+\end{equation}
+is the Planck-mean opacity, which has two distinct temperature arguments: the first accounts for variations in dust composition with $T_{\rm d}$, and the second dependence upon $T_{\rm rad}$ due to the original frequency-dependence of $\kappa_\nu\left(T_{\rm d}\right)$.
+
+In local thermodynamic equilibrium where $T_{\rm d} = T_{\rm rad} = T$ and $u=a T^4$, implies $\epsilon_{\rm d} = a T^4 \kappa_{\rm P}\left(T,T\right)$. In general, out of of LTE, Kirchoff's law for thermal emission then implies that $\epsilon_{\rm d} = a c \kappa_{\rm P}\left(T_{\rm d},T_{\rm d}\right) T_{\rm d}^4$. So the final frequency-integrated energy balance equation is
+
+\begin{equation}
+     \rho c \left(\kappa_{\rm P}\left(T_{\rm d},T_{\rm rad}\right) u_{\rm IR} - \kappa_P\left(T_{\rm d},T_{\rm d}\right) a T_{\rm d}^4\right)  + n_{\rm H}^2\alpha_{\rm gd}\left(T\right) \left(T - T_{\rm d}\right)=0.
+%    + n_{\rm H}^2\alpha_{\rm gd}\left(T\right) \left(T - T_{\rm d}\right)  = 0,
+\label{eq:dustenergy2}
+\end{equation}
+So the same functional form for $\kappa_{\rm P}$ is used to compute both emission and absorption, but the emission term substitutes $T_{\rm d}$ in the $T_{\rm rad}$ slot while the absorption term must consider both temperatures. From \label{eq:dustenergy2} it is apparent that $T_{\rm rad} \sim T_{\rm dust}$ only under certain conditions, e.g. when the radiative terms are dominant and $u_{\rm IR} \approx a T_{\rm rad}^4$. An important counterexample is deep within a pre-stellar molecular cloud, where the optical and UV components are attenuated and $u_{\rm IR}$ is dominated by the dust-emission component of the ISM, which is highly diluted compared to a blackbody and hence $T_{\rm d} << T_{\rm rad}$. This can be important for determining temperature structure in certain phases of prestellar collapse \citep{hennebelle_imf_review}.
+
+For completeness, the full equation solved in the current version of the {\small STARFORGE} model for $T_{\rm d}$, accounting for all frequency components and radiative processes, is 
+\begin{equation}
+\begin{split}
+ & \rho c \left[\sum_i \kappa_i u_i + \left(\kappa_{\rm P,d}\left(T_{\rm d},T_{\rm rad}\right) + \kappa_{\rm P,g}\left(T,T_{\rm rad}\right)\right) u_{\rm IR} - \kappa_{\rm P,d}\left(T_{\rm d},T_{\rm d}\right) a T_{\rm d}^4\right]  \\
+ &+ n_{\rm H}^2\alpha_{\rm gd}\left(T\right) \left(T - T_{\rm d}\right)=0,
+ \end{split}
+\end{equation}
+where $i$ runs over the FUV, near-UV, and optical-NIR frequency bands, with corresponding dust opacities $\kappa_i$, and $\kappa_{\rm P,g}$ is the Planck-mean opacity of the gas itself to the IR band.
+
+\section{Updated fits for frequency-integrated dust opacity}
+
+\begin{equation}
+    \kappa_{\rm dust,IR} = f_{\rm d} \exp\left(0.57 \max\left(x-7,0\right)\right) \exp \left(c_1 + c_2 x + c_3 x^2 + c_4 x^3 +  c_4 x^4\right),
+\end{equation}
+where $x=4 \log_{\rm 10} \left(T_{\rm rad}/\rm K\right) - 8$, $f_{\rm d}$  is the local dust-to-gas ratio and the coefficients $\mathbf{c}$ vary with the dust temperature range as
+\begin{equation}
+    \mathbf{c} = \begin{cases} 
+  \left(0.728, 0.751, - 0.0722, - 0.0116 ,0.00249 \right) &  T_{\rm dust} < 160 \rm K \\
+  \left(0.166,0.701, -0.0423, - 0.0113 , 0.00213 \right) &  160\rm K \leq T_{\rm dust} < 275 \rm K \\
+  \left(0.0358, 0.684, -0.0379, - 0.0113 , 0.00213 \right) &  275\rm K \leq T_{\rm dust} < 425 \rm K \\
+    \left(-0.766, 0.571, -0.0123, - 0.0104 , 0.00198\right) &  425\rm K \leq T_{\rm dust} < 680 \rm K \\
+    \left(-2.24, 0.812, 0.0801, 0.00862 , -0.00272\right) &  680\rm K \leq T_{\rm dust} < 1500 \rm K \\
+
+%
+   \end{cases}
+\end{equation}
+
+
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{Trad_vs_kappa_planck.pdf}
+\vspace{-8mm}
+\caption{Planck-mean opacity as a function of both dust temperature $T_{\rm d}$ and radiation temperature $T_{\rm rad}$, computed from the opacity tables of \citet{semenov03}. The dashed line plots the Planck-mean opacity assuming $T_{\rm d} = T_{\rm rad}$, which disagrees with $\kappa_{\rm P}\left(, T_{\rm d},T_{\rm rad}\right)$ in general.}
+\end{figure}
+% Normally the next section describes the techniques the authors used.
+% It is frequently split into subsections, such as Section~\ref{sec:maths} below.
+
+% \section*{Acknowledgements}
+
+% The Acknowledgements section is not numbered. Here you can thank helpful
+% colleagues, acknowledge funding agencies, telescopes and facilities used etc.
+% Try to keep it short.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section*{Data Availability}
+
+ 
+% The inclusion of a Data Availability Statement is a requirement for articles published in MNRAS. Data Availability Statements provide a standardised format for readers to understand the availability of data underlying the research results described in the article. The statement may refer to original data generated in the course of the study or to third-party data analysed in the article. The statement should describe and provide means of access, where possible, by linking to the data or providing the required accession numbers for the relevant databases or DOIs.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%% REFERENCES %%%%%%%%%%%%%%%%%%
+
+% The best way to enter references is to use BibTeX:
+
+\bibliographystyle{mnras}
+\bibliography{bibliography} % if your bibtex file is called example.bib
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Don't change these lines
+\bsp	% typesetting comment
+\label{lastpage}
+\end{document}
+
+% End of mnras_template.tex
