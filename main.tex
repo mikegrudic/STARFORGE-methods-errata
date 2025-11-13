@@ -72,17 +72,18 @@
 % The list of authors, and the short list which is used in the headers.
 % If you need two or more lines of authors, add an extra line using \newauthor
 \author[Grudi\'{c} et al.]{
-Michael Y. Grudi\'{c}\orcidlink{0000-0002-1655-5604}$^{1}$\thanks{mgrudic@flatironinstitute.org},
+Michael Y. Grudi\'{c}\orcidlink{0000-0002-1655-5604}$^{1}$\thanks{NASA Hubble Fellow}\thanks{mgrudic@carnegiescience.edu},
 D\'avid Guszejnov\orcidlink{0000-0001-5541-3150}$^{2}$,
 Philip F. Hopkins\orcidlink{0000-0003-3729-1684}$^{3}$,
-\newauthor
-Stella S. R. Offner\orcidlink{0000-0003-1252-9916}$^{2}$, and
-Claude-Andr{\'e} Faucher-Gigu{\`e}re\orcidlink{0000-0002-4900-6628}$^{1}$
+Stella S. R. Offner\orcidlink{0000-0003-1252-9916}$^{4}$, and\newauthor
+Claude-Andr{\'e} Faucher-Gigu{\`e}re\orcidlink{0000-0002-4900-6628}$^{5}$
 \\
 % List of institutions
-$^{1}${CIERA and Department of Physics and Astronomy, Northwestern University, 1800 Sherman Ave, Evanston, IL 60201, USA}\\
-$^{2}$Department of Astronomy, The University of Texas at Austin, TX 78712, USA \\
+$^{1}$Carnegie Observatories, 813 Santa Barbara St, Pasadena, CA 91101, USA\\
+$^{2}$Ab Initio Software, 201 Spring St, Lexington, MA 02421, USA\\
 $^{3}$TAPIR, Mailcode 350-17, California Institute of Technology, Pasadena, CA 91125, USA \\
+$^{4}$Department of Astronomy, The University of Texas at Austin, TX 78712, USA \\
+$^{5}${CIERA and Department of Physics and Astronomy, Northwestern University, 1800 Sherman Ave, Evanston, IL 60201, USA}\\
 }
 
 
@@ -112,12 +113,14 @@ keyword1 -- keyword2 -- keyword3
 
 %%%%%%%%%%%%%%%%% BODY OF PAPER %%%%%%%%%%%%%%%%%%
 
-\section{The Problem}
+\section{The error}
 
-The original {\small STARFORGE} methods paper provided a fitting functions for the IR dust opacity as a function of dust temperature $T_{\rm d}$ in Appendix C. Although this was the model originally used in the simulations, e.g. \citet{starforge_fullphysics}, it is inapplicable in the vast majority of the simulation volume. This is because dust opacity a strong function of photon energy, or equivalently the radiation temperature $T_{\rm rad}$ defined in the context of our model. Typically $T_{\rm rad} \neq T_{\rm d}$, so frequency-integrated opacity must be treated as a function of both temperatures.
+The original {\small STARFORGE} simulations methods paper \citep{starforge_methods} provided a fitting functions for the IR Planck-mean dust opacity as a function of dust temperature $T_{\rm d}$ in Appendix C. Although this was the model originally used in the simulations, e.g. \citet{starforge_fullphysics}, in the context of a simulation like {\small STARFORGE}, it is a rather poor model for its purposes. This is because dust opacity a strong function of photon energy, or equivalently the radiation temperature $T_{\rm rad}$ defined in the context of the radiative transfer solver. Typically $T_{\rm rad} \neq T_{\rm d}$, so frequency-integrated opacity must be treated as a function of both temperatures. 
+
+We take this opportunity to clarify what appears to be a confusing matter for the community, as other authors appear to have treated dust opacity as an explicit function of dust temperature alone \citep{dopcke_2011, grackle,zimmerman_2025,rigel}. Notably, this issue was discussed in a footnote in \citet{Cunningham_2018_feedback}.
+
 
 \section{Planck-mean dust opacities}
-We take this opportunity to clarify what appears to be a confusing matter for the community, as other authors appear to have treated dust opacity as an explicit function of dust temperature alone \citep{dopcke_2011, grackle,zimmerman_2025,rigel}. Notably, this issue was discussed in a footnote in \citet{cunningham2018}.
 
 Assuming the heat capacity of dust is very small, the steady-state dust energy equation balances three processes:
 
