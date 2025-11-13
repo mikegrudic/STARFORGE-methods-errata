@@ -1,3 +1,3 @@
 # Erratum for the STARFORGE methods paper (Grudic et al 2021)
 
-Here you will find materials associated with an erratum for the STARFORGE simulation methods paper, in which we explain the correction to our original incorrect dust opacity model. `planck_mean.py` generates all figures and tables, and `planck_mean_opacity.dat` and `rosseland_mean_opacity.dat` tabulate mean opacities for the Semenov 2003 porous 5-layered sphere model.
+Here you will find materials associated with an erratum for the [https://academic.oup.com/mnras/article/506/2/2199/6276745?login=true](STARFORGE simulation methods paper), in which we explain the correction to our original incorrect dust opacity model. `planck_mean.py` generates all figures and tables, and `planck_mean_opacity.dat` and `rosseland_mean_opacity.dat` tabulate mean opacities for the Semenov 2003 porous 5-layered sphere model.
