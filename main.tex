@@ -88,7 +88,7 @@ $^{5}${CIERA and Department of Physics and Astronomy, Northwestern University, 1
 
 
 % These dates will be filled out by the publisher
-\date{Accepted XXX. Received YYY; in original form ZZZ}
+%\date{Accepted XXX. Received YYY; in original form ZZZ}
 
 % Prints the current year, for the copyright statements etc. To achieve a fixed year, replace the expression with a number. 
 \pubyear{\the\year{}}
@@ -105,9 +105,9 @@ $^{5}${CIERA and Department of Physics and Astronomy, Northwestern University, 1
 
 % Select between one and six entries from the list of approved keywords.
 % Don't make up new ones.
-\begin{keywords}
-keyword1 -- keyword2 -- keyword3
-\end{keywords}
+%\begin{keywords}
+%keyword1 -- keyword2 -- keyword3
+%\end{keywords}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -115,12 +115,14 @@ keyword1 -- keyword2 -- keyword3
 
 \section{The error}
 
-The original {\small STARFORGE} simulations methods paper \citep{starforge_methods} provided a fitting functions for the IR Planck-mean dust opacity as a function of dust temperature $T_{\rm d}$ in Appendix C. Although this was the model originally used in the simulations, e.g. \citet{starforge_fullphysics}, in the context of a simulation like {\small STARFORGE}, it is a rather poor model for its purposes. This is because dust opacity a strong function of photon energy, or equivalently the radiation temperature $T_{\rm rad}$ defined in the context of the radiative transfer solver. Typically $T_{\rm rad} \neq T_{\rm d}$, so frequency-integrated opacity must be treated as a function of both temperatures. 
+The original {\small STARFORGE} simulations methods paper \citep{starforge_methods} provided a fitting functions for the infrared Planck-mean dust opacity $\kappa_{\rm P}$ as a function of dust temperature $T_{\rm d}$ in Appendix C, derived from the model of \citet{semenov_2003}. Although this was the model originally used in the simulations, e.g. \citet{starforge_fullphysics} in the context of a simulation like {\small STARFORGE}, it not a good one for this purpose. This is because it neglects the strong dependence of dust opacity on photon energy, or equivalently the radiation temperature $T_{\rm rad}$ defined in the context of our radiative transfer model. Quite often in the ISM $T_{\rm rad} \neq T_{\rm d}$, so frequency-integrated opacity must be treated as a function of both temperatures.
 
-We take this opportunity to clarify what appears to be a confusing matter for the community, as other authors appear to have treated dust opacity as an explicit function of dust temperature alone \citep{dopcke_2011, grackle,zimmerman_2025,rigel}. Notably, this issue was discussed in a footnote in \citet{Cunningham_2018_feedback}.
+Other authors appear to have made a similar error (or omission) while modeling ISM conditions where the distinction between $T_{\rm rad}$ and $T_{\rm d}$ can be quite important \citep{dopcke_2011, grackle, kannan_2020_rt, rigel,zimmermann_2025}. Notably, this nuance was previously pointed out in a footnote in \citet{Cunningham_2018_feedback}, although they did not track the distinct temperatures in their simulation.
+
+We take this opportunity to clarify the use of Planck-mean opacities in the calculation of dust radiative processes out of local thermodynamic equilibrium (LTE), and explicitly compute the dependence of mean opacity on $T_{\rm rad}$ and $T_{\rm d}$.
 
 
-\section{Planck-mean dust opacities}
+\section{Planck-mean dust opacities for emission and absorption}
 
 Assuming the heat capacity of dust is very small, the steady-state dust energy equation balances three processes:
 
@@ -156,7 +158,7 @@ In local thermodynamic equilibrium where $T_{\rm d} = T_{\rm rad} = T$ and $u=a 
 %    + n_{\rm H}^2\alpha_{\rm gd}\left(T\right) \left(T - T_{\rm d}\right)  = 0,
 \label{eq:dustenergy2}
 \end{equation}
-So the same functional form for $\kappa_{\rm P}$ is used to compute both emission and absorption, but the emission term substitutes $T_{\rm d}$ in the $T_{\rm rad}$ slot while the absorption term must consider both temperatures. From \label{eq:dustenergy2} it is apparent that $T_{\rm rad} \sim T_{\rm dust}$ only under certain conditions, e.g. when the radiative terms are dominant and $u_{\rm IR} \approx a T_{\rm rad}^4$. An important counterexample is deep within a pre-stellar molecular cloud, where the optical and UV components are attenuated and $u_{\rm IR}$ is dominated by the dust-emission component of the ISM, which is highly diluted compared to a blackbody and hence $T_{\rm d} << T_{\rm rad}$. This can be important for determining temperature structure in certain phases of prestellar collapse \citep{hennebelle_imf_review}.
+So the same functional form for $\kappa_{\rm P}$ is used to compute both emission and absorption, but the emission term substitutes $T_{\rm d}$ in the $T_{\rm rad}$ slot while the absorption term must consider both temperatures. From \label{eq:dustenergy2} it is apparent that $T_{\rm rad} \sim T_{\rm dust}$ only under certain conditions, e.g. when the radiative terms are dominant and $u_{\rm IR} \approx a T_{\rm rad}^4$. An important counterexample is deep within a pre-stellar molecular cloud, where the optical and UV components are attenuated and $u_{\rm IR}$ is dominated by the dust-emission component of the ISM, which is highly diluted compared to a blackbody and hence $T_{\rm d} << T_{\rm rad}$. This regime is important to model correctly to obatin the correct temperature structure during prestellar collapse \citep{masunaga1998,hennebelle_imf_review}.
 
 For completeness, the full equation solved in the current version of the {\small STARFORGE} model for $T_{\rm d}$, accounting for all frequency components and radiative processes, is 
 \begin{equation}
@@ -167,30 +169,31 @@ For completeness, the full equation solved in the current version of the {\small
 \end{equation}
 where $i$ runs over the FUV, near-UV, and optical-NIR frequency bands, with corresponding dust opacities $\kappa_i$, and $\kappa_{\rm P,g}$ is the Planck-mean opacity of the gas itself to the IR band.
 
-\section{Updated fits for frequency-integrated dust opacity}
+\section{Mean dust opacity as a function of $T_{\rm rad}$ and $T_{\rm d}$}
 
-\begin{equation}
-    \kappa_{\rm dust,IR} = f_{\rm d} \exp\left(0.57 \max\left(x-7,0\right)\right) \exp \left(c_1 + c_2 x + c_3 x^2 + c_4 x^3 +  c_4 x^4\right),
-\end{equation}
-where $x=4 \log_{\rm 10} \left(T_{\rm rad}/\rm K\right) - 8$, $f_{\rm d}$  is the local dust-to-gas ratio and the coefficients $\mathbf{c}$ vary with the dust temperature range as
-\begin{equation}
-    \mathbf{c} = \begin{cases} 
-  \left(0.728, 0.751, - 0.0722, - 0.0116 ,0.00249 \right) &  T_{\rm dust} < 160 \rm K \\
-  \left(0.166,0.701, -0.0423, - 0.0113 , 0.00213 \right) &  160\rm K \leq T_{\rm dust} < 275 \rm K \\
-  \left(0.0358, 0.684, -0.0379, - 0.0113 , 0.00213 \right) &  275\rm K \leq T_{\rm dust} < 425 \rm K \\
-    \left(-0.766, 0.571, -0.0123, - 0.0104 , 0.00198\right) &  425\rm K \leq T_{\rm dust} < 680 \rm K \\
-    \left(-2.24, 0.812, 0.0801, 0.00862 , -0.00272\right) &  680\rm K \leq T_{\rm dust} < 1500 \rm K \\
+We compute the Planck-mean opacity explicitly as a function of $T_{\rm rad}$ and $T_{\rm d}$ by numerically integrating the monochromatic opacity tables provided by \citet{semenov_2003} for all 5 $T_{\rm d}$ regions demarcated by sublimation points of the dust components. This routine is implemented in the \texttt{radiation.dust} submodule of the \texttt{meshoid} Python package\footnote{\url{https://github.com/mikegrudic/meshoid}}. However, it is not practical to compute $\kappa_{\rm D}$ in this way on-the-fly within the dust temperature solver in {\small GIZMO} or another RHD simulation. Instead, we use to a simple log-space linear interpolant of a lookup table as a function of $T_{\rm rad}$, with a separate table for each of the 5 distinct temperature regions. 
 
-%
-   \end{cases}
-\end{equation}
+For completeness, we also also compute Rosseland-mean opacities (Fig. \ref{fig:rosseland}) as a function $T_{\rm rad}$ and $T_{\rm d}$. In the radiative diffusion regime where the Rosseland mean is useful, conditions are likely to be closer to LTE and distinction between $T_{\rm rad}$, $T$, and $T_{\rm dust}$ is typically less important.
+
+The code used to generate these figures and a set of tabulated mean opacities are available at \url{https://github.com/mikegrudic/STARFORGE-methods-errata} or \url{}
 
 
 \begin{figure}
 \includegraphics[width=0.5\textwidth]{Trad_vs_kappa_planck.pdf}
 \vspace{-8mm}
-\caption{Planck-mean opacity as a function of both dust temperature $T_{\rm d}$ and radiation temperature $T_{\rm rad}$, computed from the opacity tables of \citet{semenov03}. The dashed line plots the Planck-mean opacity assuming $T_{\rm d} = T_{\rm rad}$, which disagrees with $\kappa_{\rm P}\left(, T_{\rm d},T_{\rm rad}\right)$ in general.}
+\caption{Planck-mean opacity as a function of both dust temperature $T_{\rm d}$ and radiation temperature $T_{\rm rad}$, computed from the monochromatic opacity tables of \citet{semenov_2003} for their `porous 5-layeredsphere' model. The dashed line plots the Planck-mean opacity assuming $T_{\rm d} = T_{\rm rad}$, which disagrees with $\kappa_{\rm P}\left(, T_{\rm d},T_{\rm rad}\right)$ in general.}
+\label{fig:planck}
 \end{figure}
+
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{Trad_vs_kappa_rosseland.pdf}
+\vspace{-8mm}
+\caption{Rosseland mean dust opacity as a function of both dust temperature $T_{\rm d}$ and radiation temperature $T_{\rm rad}$, computed from the opacity tables of \citet{semenov_2003} for their `porous 5-layeredsphere' model.}
+\label{fig:rosseland}
+\end{figure}
+
+
+
 % Normally the next section describes the techniques the authors used.
 % It is frequently split into subsections, such as Section~\ref{sec:maths} below.
 
