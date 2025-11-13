@@ -132,7 +132,7 @@ Assuming the heat capacity of dust is very small, the steady-state dust energy e
     + \underbrace{n_{\rm H}^2\alpha_{\rm gd}\left(T\right) \left(T - T_{\rm d}\right)}_{\text{Gas-dust collisions}} = 0,
     \label{eq:dustenergy}
 \end{equation}
-where $\nu$ is the photon frequency, $\kappa_{\nu}\left(T_{\rm d}\right)$ is the monochromatic dust absorption opacity, $\rho$ is the mass density, $\epsilon_\nu$ is the volumetric emissivity, $n_{\rm H}$ is the number density of H nuclei, $T$ is the gas temperature, and $\alpha_{\rm gd}$ is the gas-dust collision coefficient \citep{hollenbach_mckee_1989}. Here we have made explicit the dependence of $\kappa_{\nu}\left(T_{\rm d}\right)$ upon dust temperature, due to varying grain composition as volatiles sublimate.
+where $\nu$ is the photon frequency, $\kappa_{\nu}\left(T_{\rm d}\right)$ is the monochromatic dust absorption opacity, $\rho$ is the mass density, $u_\nu$ is the photon energy density per unit frequency, $\epsilon_\nu$ is the volumetric emissivity, $n_{\rm H}$ is the number density of H nuclei, $T$ is the gas temperature, and $\alpha_{\rm gd}$ is the gas-dust collision coefficient \citep{hollenbach_mckee_1989}. Here we have made explicit the dependence of $\kappa_{\nu}\left(T_{\rm d}\right)$ upon dust temperature, due to varying grain composition as volatiles sublimate \citep{semenov_2003}.
 
 The assumption we make for the {\small STARFORGE} far-IR photon frequency component is 
 \begin{equation}
@@ -151,19 +151,19 @@ where
 \end{equation}
 is the Planck-mean opacity, which has two distinct temperature arguments: the first accounts for variations in dust composition with $T_{\rm d}$, and the second dependence upon $T_{\rm rad}$ due to the original frequency-dependence of $\kappa_\nu\left(T_{\rm d}\right)$.
 
-In local thermodynamic equilibrium where $T_{\rm d} = T_{\rm rad} = T$ and $u=a T^4$, implies $\epsilon_{\rm d} = a T^4 \kappa_{\rm P}\left(T,T\right)$. In general, out of of LTE, Kirchoff's law for thermal emission then implies that $\epsilon_{\rm d} = a c \kappa_{\rm P}\left(T_{\rm d},T_{\rm d}\right) T_{\rm d}^4$. So the final frequency-integrated energy balance equation is
+In local thermodynamic equilibrium where $T_{\rm d} = T_{\rm rad} = T$ and $u=a T^4$, we require $\epsilon_{\rm d} = a T^4 \kappa_{\rm P}\left(T,T\right)$. In general, out of of LTE, Kirchoff's law for thermal emission therefore implies that $\epsilon_{\rm d} = a c \kappa_{\rm P}\left(T_{\rm d},T_{\rm d}\right) T_{\rm d}^4$. So the frequency-integrated energy balance equation becomes
 
 \begin{equation}
      \rho c \left(\kappa_{\rm P}\left(T_{\rm d},T_{\rm rad}\right) u_{\rm IR} - \kappa_P\left(T_{\rm d},T_{\rm d}\right) a T_{\rm d}^4\right)  + n_{\rm H}^2\alpha_{\rm gd}\left(T\right) \left(T - T_{\rm d}\right)=0.
 %    + n_{\rm H}^2\alpha_{\rm gd}\left(T\right) \left(T - T_{\rm d}\right)  = 0,
 \label{eq:dustenergy2}
 \end{equation}
-So the same functional form for $\kappa_{\rm P}$ is used to compute both emission and absorption, but the emission term substitutes $T_{\rm d}$ in the $T_{\rm rad}$ slot while the absorption term must consider both temperatures. From \label{eq:dustenergy2} it is apparent that $T_{\rm rad} \sim T_{\rm dust}$ only under certain conditions, e.g. when the radiative terms are dominant and $u_{\rm IR} \approx a T_{\rm rad}^4$. An important counterexample is deep within a pre-stellar molecular cloud, where the optical and UV components are attenuated and $u_{\rm IR}$ is dominated by the dust-emission component of the ISM, which is highly diluted compared to a blackbody and hence $T_{\rm d} << T_{\rm rad}$. This regime is important to model correctly to obatin the correct temperature structure during prestellar collapse \citep{masunaga1998,hennebelle_imf_review}.
+Thus, the same functional form for $\kappa_{\rm P}$ is used for both emission and absorption, but the emission term substitutes $T_{\rm d}$ in the $T_{\rm rad}$ slot while the absorption term uses the distinct temperatures. From \label{eq:dustenergy2} it is apparent that $T_{\rm rad} \sim T_{\rm dust}$ only under certain conditions, e.g. when the radiative terms are dominant and $u_{\rm IR} \approx a T_{\rm rad}^4$. An important counterexample is at high attenuations deep within a pre-stellar molecular cloud, where the ambient optical and UV components are attenuated. Here $u_{\rm IR}$ is dominated by the FIR dust-emission component of the ISM, which is highly diluted compared to a blackbody and hence $T_{\rm d} << T_{\rm rad}$. This regime of dust energy balance is important for thermal evolution during pre-stellar core collapse \citep{masunaga1998,hennebelle_imf_review}.
 
 For completeness, the full equation solved in the current version of the {\small STARFORGE} model for $T_{\rm d}$, accounting for all frequency components and radiative processes, is 
 \begin{equation}
 \begin{split}
- & \rho c \left[\sum_i \kappa_i u_i + \left(\kappa_{\rm P,d}\left(T_{\rm d},T_{\rm rad}\right) + \kappa_{\rm P,g}\left(T,T_{\rm rad}\right)\right) u_{\rm IR} - \kappa_{\rm P,d}\left(T_{\rm d},T_{\rm d}\right) a T_{\rm d}^4\right]  \\
+ & \rho c \left[\sum_i \kappa_i u_i + \left(\kappa_{\rm P}\left(T_{\rm d},T_{\rm rad}\right) + \kappa_{\rm P,g}\left(T,T_{\rm rad}\right)\right) u_{\rm IR} - \kappa_{\rm P,d}\left(T_{\rm d},T_{\rm d}\right) a T_{\rm d}^4\right]  \\
  &+ n_{\rm H}^2\alpha_{\rm gd}\left(T\right) \left(T - T_{\rm d}\right)=0,
  \end{split}
 \end{equation}
@@ -171,7 +171,7 @@ where $i$ runs over the FUV, near-UV, and optical-NIR frequency bands, with corr
 
 \section{Mean dust opacity as a function of $T_{\rm rad}$ and $T_{\rm d}$}
 
-We compute the Planck-mean opacity explicitly as a function of $T_{\rm rad}$ and $T_{\rm d}$ by numerically integrating the monochromatic opacity tables provided by \citet{semenov_2003} for all 5 $T_{\rm d}$ regions demarcated by sublimation points of the dust components. This routine is implemented in the \texttt{radiation.dust} submodule of the \texttt{meshoid} Python package\footnote{\url{https://github.com/mikegrudic/meshoid}}. However, it is not practical to compute $\kappa_{\rm D}$ in this way on-the-fly within the dust temperature solver in {\small GIZMO} or another RHD simulation. Instead, we use to a simple log-space linear interpolant of a lookup table as a function of $T_{\rm rad}$, with a separate table for each of the 5 distinct temperature regions. 
+We compute the Planck-mean opacity explicitly as a function of $T_{\rm rad}$ and $T_{\rm d}$ by numerically integrating the monochromatic opacity tables provided by \citet{semenov_2003} for all 5 $T_{\rm d}$ regions demarcated by sublimation points of the dust components. This routine is implemented in the \texttt{radiation.dust} submodule of the \texttt{meshoid} Python package\footnote{\url{https://github.com/mikegrudic/meshoid}}. However, it is not practical to compute $\kappa_{\rm P}$ in this way on-the-fly within the dust temperature solver in {\small GIZMO} or another RHD simulation. Instead, we use to a simple log-space linear interpolant of a lookup table as a function of $T_{\rm rad}$, with a separate table for each of the 5 distinct temperature regions. 
 
 For completeness, we also also compute Rosseland-mean opacities (Fig. \ref{fig:rosseland}) as a function $T_{\rm rad}$ and $T_{\rm d}$. In the radiative diffusion regime where the Rosseland mean is useful, conditions are likely to be closer to LTE and distinction between $T_{\rm rad}$, $T$, and $T_{\rm dust}$ is typically less important.
 
