@@ -67,7 +67,7 @@
 
 % Title of the paper, and the short title which is used in the headers.
 % Keep the title short and informative.
-\title[Erratum to STARFORGE]{Correction to: STARFORGE: Towards a comprehensive numerical model of star cluster formation and feedback}
+\title[Erratum to STARFORGE]{Second correction to: STARFORGE: Towards a comprehensive numerical model of star cluster formation and feedback}
 
 % The list of authors, and the short list which is used in the headers.
 % If you need two or more lines of authors, add an extra line using \newauthor
@@ -158,7 +158,7 @@ In local thermodynamic equilibrium where $T_{\rm d} = T_{\rm rad} = T$ and $u=a 
 %    + n_{\rm H}^2\alpha_{\rm gd}\left(T\right) \left(T - T_{\rm d}\right)  = 0,
 \label{eq:dustenergy2}
 \end{equation}
-Thus, the same functional form for $\kappa_{\rm P}$ is used for both emission and absorption, but the emission term substitutes $T_{\rm d}$ in the $T_{\rm rad}$ slot while the absorption term uses the distinct temperatures. From \label{eq:dustenergy2} it is apparent that $T_{\rm rad} \sim T_{\rm dust}$ only under certain conditions, e.g. when the radiative terms are dominant and $u_{\rm IR} \approx a T_{\rm rad}^4$. An important counterexample is at high attenuations deep within a pre-stellar molecular cloud, where the ambient optical and UV components are attenuated. Here $u_{\rm IR}$ is dominated by the FIR dust-emission component of the ISM, which is highly diluted compared to a blackbody and hence $T_{\rm d} << T_{\rm rad}$. This regime of dust energy balance is important for thermal evolution during pre-stellar core collapse \citep{masunaga1998,hennebelle_imf_review}.
+Thus, the same functional form for $\kappa_{\rm P}$ is used for both emission and absorption, but the emission term substitutes $T_{\rm d}$ in the $T_{\rm rad}$ slot while the absorption term uses the distinct temperatures. It is apparent that $T_{\rm rad} \sim T_{\rm dust}$ only under certain conditions, e.g. when the radiative terms are dominant and $u_{\rm IR} \approx a T_{\rm rad}^4$. An important counterexample is at high attenuations deep within a pre-stellar molecular cloud, where the ambient optical and UV components are attenuated. Here $u_{\rm IR}$ is dominated by the FIR dust-emission component of the ISM, which is highly diluted compared to a blackbody and hence $T_{\rm d} << T_{\rm rad}$. This regime of dust energy balance is important for thermal evolution during pre-stellar core collapse \citep{masunaga1998,hennebelle_imf_review}.
 
 For completeness, the full equation solved in the current version of the {\small STARFORGE} model for $T_{\rm d}$, accounting for all frequency components and radiative processes, is 
 \begin{equation}
@@ -171,7 +171,7 @@ where $i$ runs over the FUV, near-UV, and optical-NIR frequency bands, with corr
 
 \section{Mean dust opacity as a function of $T_{\rm rad}$ and $T_{\rm d}$}
 
-We compute the Planck-mean opacity explicitly as a function of $T_{\rm rad}$ and $T_{\rm d}$ by numerically integrating the monochromatic opacity tables provided by \citet{semenov_2003} for all 5 $T_{\rm d}$ regions demarcated by sublimation points of the dust components. This routine is implemented in the \texttt{radiation.dust} submodule of the \texttt{meshoid} Python package\footnote{\url{https://github.com/mikegrudic/meshoid}}. However, it is not practical to compute $\kappa_{\rm P}$ in this way on-the-fly within the dust temperature solver in {\small GIZMO} or another RHD simulation. Instead, we use to a simple log-space linear interpolant of a lookup table as a function of $T_{\rm rad}$, with a separate table for each of the 5 distinct temperature regions. 
+We compute the Planck-mean opacity explicitly as a function of $T_{\rm rad}$ and $T_{\rm d}$ by numerically integrating the monochromatic opacity tables provided by \citet{semenov_2003} for all 5 $T_{\rm d}$ regions demarcated by sublimation points of the dust components. This routine is implemented in the \texttt{radiation.dust} submodule of the \texttt{meshoid} Python package\footnote{\url{https://github.com/mikegrudic/meshoid}}. However, it is not practical to compute $\kappa_{\rm P}$ in this way on-the-fly within the dust temperature solver in {\small GIZMO} or another RHD simulation. Instead, we use a simple log-space linear interpolant of a lookup table as a function of $T_{\rm rad}$, with a separate table for each of the 5 distinct temperature regions. 
 
 For completeness, we also also compute Rosseland-mean opacities (Fig. \ref{fig:rosseland}) as a function $T_{\rm rad}$ and $T_{\rm d}$. In the radiative diffusion regime where the Rosseland mean is useful, conditions are likely to be closer to LTE and distinction between $T_{\rm rad}$, $T$, and $T_{\rm dust}$ is typically less important.
 
@@ -181,14 +181,14 @@ The code used to generate these figures and a set of tabulated mean opacities ar
 \begin{figure}
 \includegraphics[width=0.5\textwidth]{Trad_vs_kappa_planck.pdf}
 \vspace{-8mm}
-\caption{Planck-mean opacity as a function of both dust temperature $T_{\rm d}$ and radiation temperature $T_{\rm rad}$, computed from the monochromatic opacity tables of \citet{semenov_2003} for their `porous 5-layeredsphere' model. The dashed line plots the Planck-mean opacity assuming $T_{\rm d} = T_{\rm rad}$, which disagrees with $\kappa_{\rm P}\left(T_{\rm d},T_{\rm rad}\right)$ in general.}
+\caption{Planck-mean opacity as a function of both dust temperature $T_{\rm d}$ and radiation temperature $T_{\rm rad}$, computed from the monochromatic opacity tables of \citet{semenov_2003} for their `porous 5-layered sphere' model. The dashed line plots the Planck-mean opacity assuming $T_{\rm d} = T_{\rm rad}$, which disagrees with $\kappa_{\rm P}\left(T_{\rm d},T_{\rm rad}\right)$ in general.}
 \label{fig:planck}
 \end{figure}
 
 \begin{figure}
 \includegraphics[width=0.5\textwidth]{Trad_vs_kappa_rosseland.pdf}
 \vspace{-8mm}
-\caption{Rosseland mean dust opacity as a function of both dust temperature $T_{\rm d}$ and radiation temperature $T_{\rm rad}$, computed from the opacity tables of \citet{semenov_2003} for their `porous 5-layeredsphere' model.}
+\caption{Rosseland mean dust opacity as a function of both dust temperature $T_{\rm d}$ and radiation temperature $T_{\rm rad}$, computed from the opacity tables of \citet{semenov_2003} for their `porous 5-layered sphere' model.}
 \label{fig:rosseland}
 \end{figure}
 
