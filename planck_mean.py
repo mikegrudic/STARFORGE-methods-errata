@@ -22,6 +22,8 @@ for i, (Td1, Td2) in enumerate(Tdust_intervals):
 kappa_LTE = dust_mean_opacity(Trad, Trad)
 plt.loglog(Trad, kappa_LTE, label=r"$T_{\rm rad}=T_{\rm d}$", color="black", ls="dashed")
 
+plt.loglog([0], [0], color="black", ls="dotted", lw=0.5, label="Grudic+21 fits")
+
 opacities.append(kappa_LTE)
 
 header = "Planck-mean dust opacity in cm^2/g computed for the Semenov 2003 porous 5-layered \
