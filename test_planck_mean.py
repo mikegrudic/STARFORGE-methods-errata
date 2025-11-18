@@ -13,6 +13,7 @@ for i, (Td1, Td2) in enumerate(Tdust_intervals):
     kappa_gizmo = kappadust_gizmo(Trad, Td1)
     fit = np.polyfit(np.log10(Trad), np.log10(kappa), 9)
     plt.loglog(Trad, kappa, label=r"$T_{\rm d }\in (%g,%g) \rm K$" % (Td1, Td2), color=colors[i])
+    #    plt.loglog(Trad[::1000], kappa[::1000], color=colors[i])
     plt.loglog(Trad, kappa_gizmo, color=colors[i], ls="dotted", lw=0.5)  # , label=("Grudic+21" if i == 0 else None))
 
 #    plt.loglog(Trad, 10.0 ** np.polyval(fit, np.log10(Trad)), ls="dotted", color=colors[i])
