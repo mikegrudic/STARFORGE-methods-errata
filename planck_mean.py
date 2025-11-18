@@ -1,6 +1,8 @@
 from meshoid.radiation.dust import dust_mean_opacity
 import numpy as np
 from matplotlib import pyplot as plt
+from kappadust_gizmo import kappadust_gizmo
+
 
 Trad = np.logspace(0, 4, 10**4)
 Tdust_vals = 10, 200, 300, 500, 1000
@@ -10,9 +12,12 @@ colors = plt.get_cmap("inferno")(np.linspace(0.2, 0.8, len(Tdust_vals)))
 opacities = []
 for i, (Td1, Td2) in enumerate(Tdust_intervals):
     kappa = dust_mean_opacity(Trad, Td1)
+    kappa_gizmo = kappadust_gizmo(Trad, Td1)
     opacities.append(kappa)
     fit = np.polyfit(np.log10(Trad), np.log10(kappa), 9)
     plt.loglog(Trad, kappa, label=r"$T_{\rm d }\in (%g,%g) \rm K$" % (Td1, Td2), color=colors[i])
+    plt.loglog(Trad, kappa_gizmo, color=colors[i], ls="dotted", lw=0.5)  # , label=("Grudic+21" if i == 0 else None))
+
 
 kappa_LTE = dust_mean_opacity(Trad, Trad)
 plt.loglog(Trad, kappa_LTE, label=r"$T_{\rm rad}=T_{\rm d}$", color="black", ls="dashed")
